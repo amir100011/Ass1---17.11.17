@@ -182,18 +182,39 @@ int Directory::getChild(string child){//return the index of "child" in the child
 
 }
 Directory* Directory::getDirectory(string path) {
-    if(children.size()==0)
-        return nullptr;
     bool fag = false;//this is to split the string
     string directory= "";
-    int i;
+    int i = 0;
     int location=0;
     string::iterator it;
-    for(it = path.begin();it < path.end(); it++) {
+    for(it = path.begin();it != path.end(); it++) {
         if ('/' == *it && fag){//end sequence of /.../
             fag = false;
+            if(directory.length() == 0) {//first check if there is a statement between the /
+                std::cout << "path not valid" << endl;
+                return nullptr;
+            }
+            if( directory.length() == 2 && directory[0] == '.' && directory[1] == '.' ) {//next check if there's dots that means we need to go up
+                if (this->getParent() == nullptr) {
+                    std::cout << "path not valid" << endl;
+                    return nullptr;
+                }
+                path = path.substr(location+1,path.length());
+                if(path.length()==1)//this deals with ../ after substr we get /
+                    return this->getParent();
+                else return static_cast<Directory *>(this->getParent()->getDirectory(path));//next recursive move is from the parent and we have a case of ../moreChars
+            }
+            if(directory.length() == 1 && directory[0]== '.' ){
+                path = path.substr(location+1 , path.length());
+                if(path.length()==1)
+                    return this;
+                else return this->getDirectory(path);
+            }
+            //if we passed the above we need to check if the next Dir is one of the children
+            if(children.size()==0)
+                return nullptr;
             i = getChild(directory);//looking for /".."/ directory
-            if (i != -1) {//-1 if we haven't found a directory resembling the name given
+            if (i == - 1 ) {//-1 if we haven't found a directory resembling the name given
                 std::cout << "path not valid" << endl;
                 return nullptr;
             } else {
@@ -201,7 +222,7 @@ Directory* Directory::getDirectory(string path) {
                  * then the next recursive move of the function
                  * will be with path /dir2 and this directory will be at dir1
                  */
-                return static_cast<Directory *>(children[i])->getDirectory(path.substr(location,path.length()));
+                return static_cast<Directory *>(children[i])->getDirectory(path.substr(location+1,path.length()));
             }
         } else if ('/' == *it && fag == false)//begin sequence of /.../
             fag = true;
@@ -212,12 +233,16 @@ Directory* Directory::getDirectory(string path) {
         }
     }
     i = getChild(directory);
-    if(it == path.end() && i>=0){//reached end of path
+    if(it == path.end() && i>=0)//reached end of path
         return  static_cast<Directory *>(children[i]);
-
-    }else return nullptr;
-
+    if(i == -1 && directory.compare("..") == 0 )
+        return this->getParent();
+    if(i== -1 && directory.compare(".") == 0)
+        return this;
+    else
+        return nullptr;
 }
+
 
 
  Directory::~Directory(){
@@ -264,4 +289,38 @@ Directory* Directory::pathValidation(vector<string>* name, int index) {//checks 
         }
     }
     return tmpFldr->pathValidation(name,index+1);
+}
+void Directory::removePtr(BaseFile* file){
+    vector<BaseFile*>::iterator it;
+    for(it = children.begin(); it < children.end(); it++) {
+        if (&(**it) == &(*file)) //only if the pointer is not null or the value (address that he points)is on this directory children
+            children.erase(std::remove(children.begin(), children.end(), file), children.end());// only deletes pointer
+
+    }
+}
+void Directory:: ToCopy(BaseFile* file){
+    if(file->isDirectory(file)){//to be copied file is directory so we need to recursive copy everything in it
+       Directory * CopyDir = new Directory(file->getName(),this);
+       vector <BaseFile*> CopyChildren = static_cast<Directory*>(file)->getChildren();
+        for(int i = 0 ; i < CopyChildren.size(); i++)
+            CopyDir->ToCopy(CopyChildren[i]);
+    }else{//file is just a file
+        BaseFile* CopyFile = new File(file->getName(),file->getSize());
+        this->addFile(CopyFile);
+        return;
+    }
+    return;
+}
+BaseFile* Directory::getChildModified(string child){
+    string temp;
+    if(children.size() == 0 )
+        return nullptr;
+    for(int i = 0 ; i< children.size() ; i++){
+        temp = children[i]->getName();
+        if(!child.compare(temp)){
+            return children[i];
+        }
+    }
+    return nullptr;
+
 }

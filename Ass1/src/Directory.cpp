@@ -265,7 +265,7 @@ Directory* Directory::pathValidation(vector<string>* name, int index) {//checks 
     bool valid = true;
     string x = (*name)[index];
     string y = this->getName();
-    if((*name).size() == index + 1  && (*name)[index - 1] == (this->getName()))//current dir
+    if((*name).size() == index + 1 && (*name)[index - 1 ] == (this->getName()))//current dir
         return tmpFldr;
     else if ((*name).size() == index + 1)//dir is not the current dir
         return nullptr;
@@ -290,6 +290,7 @@ Directory* Directory::pathValidation(vector<string>* name, int index) {//checks 
     }
     return tmpFldr->pathValidation(name,index+1);
 }
+
 void Directory::removePtr(BaseFile* file){
     vector<BaseFile*>::iterator it;
     for(it = children.begin(); it < children.end(); it++) {

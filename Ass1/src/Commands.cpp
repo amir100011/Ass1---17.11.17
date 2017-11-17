@@ -108,36 +108,261 @@ void LsCommand::execute(FileSystem &fs) {
 string LsCommand::toString() {
     return "ls";
 }
-/*
+
 /////////mkir Command////////////
 
 MkdirCommand::MkdirCommand(string args) : BaseCommand(args){}
 
 void MkdirCommand::execute(FileSystem &fs) {
     string path = this->getArgs();
-    string directory = "";
     path = delSpace(path);
-    bool fag = false;
     if (path.length() == 0) {
         std::cout << "path not valid" << endl;
         return;
     }
     Directory *Point;
-    if (path[0] == '/') //Absouloute path
+    if (path[0] == '/') { //Absouloute path
         Point = &fs.getRootDirectory();
-    else {
+        path = path.substr(1,path.length());
+    }else
         Point = &fs.getWorkingDirectory();///Relative path--mean we go an order to build a directory here
-        BaseFile *newDir = new Directory(path, Point);
-        Point->addFile(newDir);
+    MakeDir(path,Point);
+    }
+
+
+string MkdirCommand::toString() {return this->getArgs();}
+
+
+
+/////////MkFile/////////////
+MkfileCommand::MkfileCommand(string args) :BaseCommand(args){}
+
+void MkfileCommand::execute(FileSystem &fs) {
+    string path = this->getArgs();
+    string Size = "";
+    string FileName = "";
+    int loc;
+    bool fag = false;
+    Directory* WorkDir;
+    while(!fag){
+        loc = path.find_last_of(" ");
+        if(loc == -1){
+            std::cout << "Command not Valid" << endl;
+            return;
+        }
+
+        if(loc+1 == path.length())
+           path =  path.substr(0,path.length() -1);
+        else {
+            Size = path.substr(loc + 1, path.length());
+            path = path.substr(0, loc);
+            fag = true;
+        }
+    }//now Size hold the size integer
+    path = delSpace(path);
+    loc = path.find_last_of("/");
+    if(loc == -1){///Make file in this Directory
+        WorkDir = &fs.getWorkingDirectory();
+        BaseFile* newFile = new File(path,std::stoi(Size));
+        WorkDir->addFile(newFile);
+        return;
+    }else {
+        FileName = path.substr(loc + 1,path.length());
+        path = path.substr(0,loc);
+    }//TODO now we have the file size in Size the file name in FileName and the path in path so from here is just to get the workDir to the last dir in path and initializing the file
+    if(path[0] == '/')
+        WorkDir = &fs.getRootDirectory();
+    else {
+        WorkDir = &fs.getWorkingDirectory();
+        path = '/' + path;
+    }
+    WorkDir = WorkDir->getDirectory(path);
+    if(WorkDir == nullptr){
+        std::cout << "The system cannot find the path specified" << endl;
         return;
     }
-    while(path.length() != 0) {
-        directory = path.substr(0,)
+    BaseFile* newFile = new File(FileName,std::stoi(Size));
+    WorkDir->addFile(newFile);
+ }
+
+
+string MkfileCommand::toString() {return this->getArgs();}
+
+
+//////Cp Command///////
+
+CpCommand::CpCommand(string args) :BaseCommand(args){}
+
+void CpCommand::execute(FileSystem &fs) {
+    string path = this->getArgs();
+    string Dest = "";
+    string src = "";
+    int loc;
+    bool fag = false;
+    while (!fag) {
+        loc = path.find_last_of(" ");
+        if (loc == -1) {
+            std::cout << "Command not Valid" << endl;
+            return;
+        }
+
+        if (loc + 1 == path.length())
+            path = path.substr(0, path.length() - 1);
+        else {
+            Dest = path.substr(loc + 1, path.length());
+            path = path.substr(0, loc);
+            fag = true;
+        }
+
+    }///now we have a destination path in Dest and Source in path
+    BaseFile* temp;
+    Directory* Destination;
+    Directory* Source;
+    Dest = delSpace(Dest);
+    if(Dest[0]=='/')
+        Destination = &fs.getRootDirectory();
+    else{
+        Destination = &fs.getWorkingDirectory();
+        Dest = '/' + Dest;
+    }
+    Destination = Destination->getDirectory(Dest);///Destination directory is here
+    if(Destination == nullptr){
+        cout << "No such file or directory" << endl;
+        return;
+    }
+    path = delSpace(path);
+    loc = path.find_last_of('/');
+    if(loc != -1) {//means we have an intermediate directories
+        src = path.substr(loc+1,path.length());
+        path = path.substr(0,loc);
+        if(path.length() == 0){//this means src is a file in root
+            temp = fs.getRootDirectory().getChildModified(src);
+            if(temp == nullptr){
+                cout << "No such file or directory" << endl;
+                return;
+            }
+            Destination->ToCopy(temp);
+            return;
+        }
+        if(path[0] == '/')
+            Source = &fs.getRootDirectory();
+        else {
+            Source = &fs.getWorkingDirectory();
+            path = '/' + path;
+        }
+        Source = Source->getDirectory(path);
+        if(Source == nullptr) {
+            cout << "No such file or directory" << endl;
+            return;
+        }
+        temp = Source->getChildModified(src);
+    }else  temp = fs.getWorkingDirectory().getChildModified(path);//file in this working directory
+
+    if(temp == nullptr){
+            cout << "No such file or directory" << endl;
+            return;
+        }
+     /*
+      * If we got this far this means we have our source to be copied in temp and our destination in Dest
+      */
+       Destination->ToCopy(temp);
+    }
+string CpCommand::toString() {return this->getArgs();}
+
+
+
+
+
+//////Mv Command///////////
+MvCommand::MvCommand(string args) :BaseCommand(args){}
+
+void MvCommand::execute(FileSystem &fs) {
+    string path = this->getArgs();
+    string Dest = "";
+    string src = "";
+    int loc;
+    bool fag = false;
+    while (!fag) {
+        loc = path.find_last_of(" ");
+        if (loc == -1) {
+            std::cout << "Command not Valid" << endl;
+            return;
+        }
+
+        if (loc + 1 == path.length())
+            path = path.substr(0, path.length() - 1);
+        else {
+            Dest = path.substr(loc + 1, path.length());
+            path = path.substr(0, loc);
+            fag = true;
+        }
+
+    }///now we have a destination path in Dest and Source in path
+    BaseFile *temp;
+    Directory *Destination;
+    Directory *Source;
+    Dest = delSpace(Dest);
+    if (Dest[0] == '/')
+        Destination = &fs.getRootDirectory();
+    else {
+        Destination = &fs.getWorkingDirectory();
+        Dest = '/' + Dest;
+    }
+    Destination = Destination->getDirectory(Dest);///Destination directory is here
+    if (Destination == nullptr) {
+        cout << "No such file or directory" << endl;
+        return;
+    }
+    path = delSpace(path);
+    loc = path.find_last_of('/');
+    if (loc != -1) {//means we have an intermediate directories
+        src = path.substr(loc + 1, path.length());
+        path = path.substr(0, loc);
+
+
+        if (path.length() == 0) {//this means src is a file in root
+            temp = fs.getRootDirectory().getChildModified(src);
+            if (temp == nullptr) {
+                cout << "No such file or directory" << endl;
+                return;
+            }
+            if (temp->isDirectory(temp)) {
+                static_cast<Directory *>(temp)->getParent()->removePtr(temp);
+                static_cast<Directory *>(temp)->setParent(Destination);
+
+            }else{///temp is a file whose parent is Root
+                fs.getRootDirectory().removePtr(temp);//the idea is to deletea pointer and switch to other pointer
+                Destination->addFile(temp);
+
+            }
+            Destination->addFile(temp);
+            return;
+        }//end of stupid loop
+        if(path[0] == '/')//absoulote path
+            Source = &fs.getRootDirectory();
+        else {
+            Source = &fs.getWorkingDirectory();
+            path = '/' + path;
+        }
+        Source = Source->getDirectory(path);///parent Directory
+        temp = Source->getChildModified(src);//file or Directory to be moved
+
+    }else {//from relative folder file or dir in workingdirectory
+        Source = &fs.getWorkingDirectory();
+        temp = Source->getChildModified(path);
     }
 
+    if(temp->isDirectory(temp))
+        static_cast<Directory *>(temp)->setParent(Destination);//need to update parent if Dir
 
+    Source->removePtr(temp);
+    Destination->addFile(temp);
+    return;
+    }
+string MvCommand::toString() {return this->getArgs();}
 
-}*/
+////////Verbose Command///////
+
 
 
 

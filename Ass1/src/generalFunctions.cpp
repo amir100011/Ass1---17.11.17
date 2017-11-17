@@ -10,13 +10,20 @@ vector<std::string>* pathSplit(string path){//general function returns pointer t
     vector<std::string> *content = new vector<string>;
     std::size_t found = path.find("/");
 
-    int i = 0;
-    while(found != std::string::npos)
-    {
-        content->push_back(path.substr(0 , found));
-        i++;
-        path = path.substr(found + 1, path.size());
-        found = path.find("/");
+    while(found != std::string::npos) {
+        string tmp =path.substr(0, 2);
+        if (path.substr(0, 2).compare("..") == 0) {
+            if (content->size() > 0)
+                content->pop_back();
+            else
+                return nullptr;
+            path = path.substr(found + 1, path.size());//jump over X/../something
+            found = path.find("/");
+        } else {
+            content->push_back(path.substr(0, found));
+            path = path.substr(found + 1, path.size());
+            found = path.find("/");
+        }
     }
     content->push_back(path);
     return content;
@@ -34,6 +41,8 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
         Directory* currentDir = &fs.getWorkingDirectory();
         if (path[0] == '/') {//this means from root
             vector<string> *brokenPath = pathSplit(path);
+            if (brokenPath == nullptr)
+                return nullptr;
             Directory *rootFolder = &fs.getRootDirectory();
             Directory *isValid = rootFolder->pathValidation(brokenPath, 0);
             if (isValid != nullptr) {
@@ -44,11 +53,29 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
                 return nullptr;
             }
         } else if (path[0] == '.' && path[1] == '.' && path[2] == '/') {//go up to parent directory
-            while (path[0] == '.' && path[1] == '.' && path[2] == '/') {
+            currentDir = ((*currentDir).getParent());//go to father worst case nullptr
+            if (currentDir == nullptr) {//changing root or above
+                cout << "trying to change folder that doesn't exist (above root)" << std::endl;
+                return currentDir;
+            }
+            else
+                currentDir = ((*currentDir).getParent());//go to grandpa worst case nullptr
+            path = path.substr(3, path.size());//cutting the expression "../"
+            if (currentDir == nullptr) {//changing root or above
+                cout << "can't change root or above folders" << std::endl;
+                return currentDir;
+            }
+            while (path[0] == '.' && path[1] == '.' && path[2] == '/' && currentDir != nullptr) {
                 currentDir = ((*currentDir).getParent());
                 path = path.substr(3, path.size());//cutting the expression "../"
             }
+            if (currentDir == nullptr) {//changing root or above
+                cout << "trying to change folder that doesn't exist (above root)" << std::endl;
+                return currentDir;
+            }
             vector<string> *brokenPath = pathSplit(path);
+            if (brokenPath == nullptr)
+                return nullptr;
             Directory *isValid = currentDir->pathValidation(brokenPath, 0);
             if (isValid != nullptr) {
                 currentDir = isValid;
@@ -62,6 +89,8 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
                 path = path.substr(2, path.size());//cutting the expression "./"
             }
             vector<string> *brokenPath = pathSplit(path);
+            if (brokenPath == nullptr)
+                return nullptr;
             Directory *isValid = currentDir->pathValidation(brokenPath, 0);
             if (isValid != nullptr) {
                 currentDir = isValid;
@@ -73,6 +102,8 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
         }
         else {//current directory
             vector<string> *brokenPath = pathSplit(path);
+            if (brokenPath == nullptr)
+                return nullptr;
             Directory *isValid = currentDir->pathValidation(brokenPath, 0);
             if (isValid != nullptr) {
                 currentDir = isValid;

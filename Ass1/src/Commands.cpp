@@ -29,6 +29,46 @@ string delSpace(string &str)
     }
     return str;
 }
+void MakeDir(string path,Directory* Point){//we can assume that path is a Relative path meaning it doesnt start with a /
+    int loc = path.find("/",0);
+    string directory="";
+    Directory *temp;
+    if(loc == -1) {//create a directory in Point
+        BaseFile* newDir = new Directory(path,Point);
+        Point->addFile(newDir);
+        return;
+    }else{///has intermediate fDIR
+        directory = path.substr(0,loc);//now directory hold the name of the  intermediate  directory
+        path = path.substr(loc+1,path.length());///now we have our next Dir objective
+        temp = Point->getDirectory("/"+directory);
+        if(temp == nullptr){// no such Dir exist
+            BaseFile* newDir = new Directory(directory,Point);
+            Point->addFile(newDir);
+            MakeDir(path ,static_cast<Directory*>(newDir));//next Recursive call
+        }else//Directory exist
+            MakeDir(path,temp);
+    }
+}
+void MakeDir(string path,Directory* Point){//we can assume that path is a Relative path meaning it doesnt start with a /
+    int loc = path.find("/",0);
+    string directory="";
+    Directory *temp;
+    if(loc == -1) {//create a directory in Point
+        BaseFile* newDir = new Directory(path,Point);
+        Point->addFile(newDir);
+        return;
+    }else{///has intermediate fDIR
+        directory = path.substr(0,loc);//now directory hold the name of the  intermediate  directory
+        path = path.substr(loc+1,path.length());///now we have our next Dir objective
+        temp = Point->getDirectory("/"+directory);
+        if(temp == nullptr){// no such Dir exist
+            BaseFile* newDir = new Directory(directory,Point);
+            Point->addFile(newDir);
+            MakeDir(path ,static_cast<Directory*>(newDir));//next Recursive call
+        }else//Directory exist
+            MakeDir(path,temp);
+    }
+}
 ///////////Pwd Command////////////////
 PwdCommand::PwdCommand(string args):BaseCommand(args){}
 

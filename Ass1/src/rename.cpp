@@ -7,7 +7,6 @@
 #include <algorithm>
 
 
-
 RenameCommand::RenameCommand(string args) : BaseCommand(args){};
 
 void RenameCommand::execute(FileSystem & fs) {
@@ -20,16 +19,27 @@ void RenameCommand::execute(FileSystem & fs) {
     string path = Command.substr(0, pathIndex); //the path
 
     Directory* lastDir = jumpToNewWorkingDirectory(fs,path);
-    
-          if( lastDir != nullptr)
+
+          if( lastDir != nullptr && (*lastDir).getChildren().size() > 0)
           {
-            string oldName = path.substr(path.find_last_of("/") + 1, path.size() );//last argument of the path + name to change to
-            bool found = false;
-              BaseFile* X = (*lastDir).getChildren()[0];
-              vector<BaseFile*>::iterator it = (*lastDir).getChildren().begin();
-            for(int i = 0; X = (*lastDir).getChildren()[i]; i++){
+              string oldName = path.substr(path.find_last_of("/") + 1, path.size() );//last argument of the path + name to change to
+              bool found = false;
+              bool foundWithSameName = false;
+              BaseFile* X = nullptr;
+              BaseFile* y = nullptr;
+              for(int i = 0; i < (*lastDir).getChildren().size(); i++){
+                X = (*lastDir).getChildren()[i];
                 if(X->getName().compare(oldName) == 0) {
-                    X->setName(newName);
+                    for (int j = 0; j < (*lastDir).getChildren().size() && !foundWithSameName && !foundWithSameName; j++){
+                        y = (*lastDir).getChildren()[j];
+                        if (y->getName().compare(newName) == 0){
+                            foundWithSameName = true;
+                            cout << "File/Directory with same name already exists at the target location" <<std::endl;
+                        }
+                    }
+                    if(!foundWithSameName)
+                        X->setName(newName);
+
                     found = true;
                 }
             }

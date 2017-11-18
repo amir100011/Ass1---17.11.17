@@ -328,3 +328,15 @@ BaseFile* Directory::getChildModified(string child){
     return nullptr;
 
 }
+
+bool Directory::checkSubTree(Directory* file, Directory* directoryToDelete) {//checks if working dir is in sub-tree of deleted candidate
+
+        if (file->getParent() == nullptr)
+            return true;
+        else if (file->getParent()->getName().compare(directoryToDelete->getName()) == 0)
+            return false;
+        else
+            return file->checkSubTree(file->getParent(), directoryToDelete);
+
+
+}

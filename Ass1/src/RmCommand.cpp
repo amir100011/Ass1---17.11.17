@@ -19,16 +19,16 @@ void RmCommand::execute(FileSystem & fs){
         cout << "can't remove Root directory" << std::endl;
     else
         lastDir = jumpToNewWorkingDirectory(fs,path);
-    
-    if( lastDir != nullptr)
+
+    if( lastDir != nullptr && (*lastDir).getChildren().size() > 0)
     {
         string oldName = path.substr(path.find_last_of("/") + 1, path.size() );//last argument of the path + name to change to
         bool found = false;
-        BaseFile* X = (*lastDir).getChildren()[0];
-        vector<BaseFile*>::iterator it = (*lastDir).getChildren().begin();
-        for(int i = 0; X = (*lastDir).getChildren()[i]; i++){
+        BaseFile* X = nullptr;
+        for(int i = 0; i < (*lastDir).getChildren().size(); i++){
+            X = (*lastDir).getChildren()[i];
             if(X->getName().compare(oldName) == 0) {
-                delete X;
+                delete(X);
                 found = true;
             }
         }

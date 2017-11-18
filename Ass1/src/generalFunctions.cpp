@@ -19,6 +19,9 @@ vector<std::string>* pathSplit(string path){//general function returns pointer t
                 return nullptr;
             path = path.substr(found + 1, path.size());//jump over X/../something
             found = path.find("/");
+        } else if (path.substr(0, 1).compare(".") == 0){
+            path = path.substr(found + 1, path.size());//jump over X/../something
+            found = path.find("/");
         } else {
             content->push_back(path.substr(0, found));
             path = path.substr(found + 1, path.size());
@@ -54,6 +57,7 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
             }
         } else if (path[0] == '.' && path[1] == '.' && path[2] == '/') {//go up to parent directory
             currentDir = ((*currentDir).getParent());//go to father worst case nullptr
+            path = path.substr(3, path.size());//cutting the expression "../"
             if (currentDir == nullptr) {//changing root or above
                 cout << "trying to change folder that doesn't exist (above root)" << std::endl;
                 return currentDir;

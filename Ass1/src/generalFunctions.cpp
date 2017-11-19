@@ -119,3 +119,4 @@ Directory* jumpToNewWorkingDirectory(FileSystem& fs, string path) {
         }
     }
 }
+

@@ -8,12 +8,12 @@
 BaseCommand::BaseCommand(string Args) :args(Args){}//BaseCommand Constructor
 
 BaseCommand::~BaseCommand(){//Destructor
-    args.clear();
-    this->args = nullptr;
-}
+                     args.clear();
+                     this->args = nullptr;
+                }
 string BaseCommand::getArgs() {//returns string
     return this->args;
-}
+                }
 void BaseCommand::setArgs(string Name) {
     this->args=Name;
 }

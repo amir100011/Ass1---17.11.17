@@ -29,13 +29,13 @@ string delSpace(string &str)
     }
     return str;
 }
+
 void MakeDir(string path,Directory* Point){//we can assume that path is a Relative path meaning it doesnt start with a /
     int loc = path.find("/",0);
     string directory="";
     Directory *temp;
     if(loc == -1) {//create a directory in Point
         BaseFile* newDir = new Directory(path,Point);
-        Point->addFile(newDir);
         return;
     }else{///has intermediate fDIR
         directory = path.substr(0,loc);//now directory hold the name of the  intermediate  directory
@@ -43,32 +43,12 @@ void MakeDir(string path,Directory* Point){//we can assume that path is a Relati
         temp = Point->getDirectory("/"+directory);
         if(temp == nullptr){// no such Dir exist
             BaseFile* newDir = new Directory(directory,Point);
-            Point->addFile(newDir);
             MakeDir(path ,static_cast<Directory*>(newDir));//next Recursive call
         }else//Directory exist
             MakeDir(path,temp);
     }
 }
-void MakeDir(string path,Directory* Point){//we can assume that path is a Relative path meaning it doesnt start with a /
-    int loc = path.find("/",0);
-    string directory="";
-    Directory *temp;
-    if(loc == -1) {//create a directory in Point
-        BaseFile* newDir = new Directory(path,Point);
-        Point->addFile(newDir);
-        return;
-    }else{///has intermediate fDIR
-        directory = path.substr(0,loc);//now directory hold the name of the  intermediate  directory
-        path = path.substr(loc+1,path.length());///now we have our next Dir objective
-        temp = Point->getDirectory("/"+directory);
-        if(temp == nullptr){// no such Dir exist
-            BaseFile* newDir = new Directory(directory,Point);
-            Point->addFile(newDir);
-            MakeDir(path ,static_cast<Directory*>(newDir));//next Recursive call
-        }else//Directory exist
-            MakeDir(path,temp);
-    }
-}
+
 ///////////Pwd Command////////////////
 PwdCommand::PwdCommand(string args):BaseCommand(args){}
 
@@ -85,18 +65,23 @@ CdCommand::CdCommand(string args):BaseCommand(args){}
 
 void CdCommand::execute(FileSystem &fs) {
     string path = this->getArgs();
-    Directory* temp;
-    if (path[0] == '/')//absoulte path
-        temp = &fs.getRootDirectory();
-    else {
+    Directory *temp;
+    path = delSpace(path);
+    if (path[0] == '/') {//absoulte path
+    temp = &fs.getRootDirectory();
+    if (path.length() == 1) {
+        fs.setWorkingDirectory(temp);
+        return;
+    }
+    }else {
         temp = &fs.getWorkingDirectory();//RelativePath
         path = "/"+path;
     }
     temp = temp->getDirectory(path);
-    if(temp == nullptr){//no such path exists
-        std::cout << "path not valid" << endl;
-        return;
-    }
+     if(temp == nullptr){//no such path exists
+         std::cout << "path not valid" << endl;
+         return;
+     }
     fs.setWorkingDirectory(temp);
     return;
 
@@ -116,19 +101,20 @@ void LsCommand::execute(FileSystem &fs) {
     if(loc != - 1)///-s  found meaning that we sort by Size
         SortBySize = true;
     if(Command.length() != 0 && loc != -1) //there is a path
-        Command = Command.substr(loc+2,Command.length());//if loc is -1 then command remains untouched else it give us the path...if exists
-
+             Command = Command.substr(loc+2,Command.length());//if loc is -1 then command remains untouched else it give us the path...if exists
+    Command = delSpace(Command);
     if(Command.length() != 0){
-        Command = delSpace(Command);
-        if(Command[0] == '/')//Absoulote path
-            WorkDir = &fs.getRootDirectory();
-        else{
-            WorkDir = &fs.getWorkingDirectory();
-            Command = "/"+ Command;
-        }//Relative path
-        WorkDir = WorkDir->getDirectory(Command);
-        if(WorkDir==nullptr)
-            return;
+         if(Command[0] == '/')//Absoulote path
+               WorkDir = &fs.getRootDirectory();
+         else{
+             WorkDir = &fs.getWorkingDirectory();
+             Command = "/"+ Command;
+         }//Relative path
+         WorkDir = WorkDir->getDirectory(Command);
+         if(WorkDir==nullptr) {
+             cout << "path not valid"<< endl;
+             return;
+         }
     }else WorkDir = &fs.getWorkingDirectory();//there isn't a path ls is activated on Working Direcotry
     if (SortBySize)
         WorkDir->sortBySize();
@@ -181,6 +167,7 @@ void MkfileCommand::execute(FileSystem &fs) {
     string path = this->getArgs();
     string Size = "";
     string FileName = "";
+    BaseFile *newFile;
     int loc;
     bool fag = false;
     Directory* WorkDir;
@@ -203,7 +190,9 @@ void MkfileCommand::execute(FileSystem &fs) {
     loc = path.find_last_of("/");
     if(loc == -1){///Make file in this Directory
         WorkDir = &fs.getWorkingDirectory();
-        BaseFile* newFile = new File(path,std::stoi(Size));
+        try {
+             newFile= new File(path, std::stoi(Size));
+        }catch(std::invalid_argument){    cout << "Invalid Command please enter a valid size integer "<<endl;return; }
         WorkDir->addFile(newFile);
         return;
     }else {
@@ -213,6 +202,7 @@ void MkfileCommand::execute(FileSystem &fs) {
     if(path[0] == '/')
         WorkDir = &fs.getRootDirectory();
     else {
+
         WorkDir = &fs.getWorkingDirectory();
         path = '/' + path;
     }
@@ -221,7 +211,9 @@ void MkfileCommand::execute(FileSystem &fs) {
         std::cout << "The system cannot find the path specified" << endl;
         return;
     }
-    BaseFile* newFile = new File(FileName,std::stoi(Size));
+    try {
+        newFile = new File(FileName, std::stoi(Size));
+    }catch(std::invalid_argument){ cout<< "Invalid Command please enter a valid size integer"<<endl;return;}
     WorkDir->addFile(newFile);
  }
 
@@ -402,6 +394,13 @@ void MvCommand::execute(FileSystem &fs) {
 string MvCommand::toString() {return this->getArgs();}
 
 ////////Verbose Command///////
+
+
+
+
+
+
+
 
 
 

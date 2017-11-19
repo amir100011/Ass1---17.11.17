@@ -11,7 +11,7 @@ HistoryCommand::HistoryCommand(string args, const vector<BaseCommand *> & histor
 
 void HistoryCommand::execute(FileSystem & fs){
 
-   // for(vector<BaseCommand*>::iterator it = history.begin(); it != history.end(); it++){
+    // for(vector<BaseCommand*>::iterator it = history.begin(); it != history.end(); it++){
 
     for (int i = 0; i < history.size() - 1; i++){
         cout<< std::to_string(i) + "  " + (*history[i]).toString() + "\r\n" << std::endl;

@@ -21,4 +21,7 @@ string BaseFile::getName() const{//returns current file name
 void BaseFile::setName(string newName){
 	name = newName;
 }
+BaseFile::BaseFile(const BaseFile &other) {
+	this->setName(other.getName());
+}
 

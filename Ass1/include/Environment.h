@@ -16,8 +16,9 @@ private:
 
 public:
 	Environment();
-	void start();//TODO
-    FileSystem& getFileSystem(); // Get a reference to the file system
+	~Environment();
+	void start();
+	FileSystem& getFileSystem(); // Get a reference to the file system
 	void addToHistory(BaseCommand *command); // Add a new command to the history
 	const vector<BaseCommand*>& getHistory() const; // Return a reference to the history of commands
 };

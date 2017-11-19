@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/amir/Downloads/clion-2017.2.3/bin/cmake/bin/cmake
+CMAKE_COMMAND = /home/dor/Downloads/clion-2017.2.3/bin/cmake/bin/cmake
 
 # The command to remove a file.
-RM = /home/amir/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -E remove -f
+RM = /home/dor/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/amir/Desktop/eclipse/Ass1
+CMAKE_SOURCE_DIR = /home/dor/CLionProjects/Ass1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/amir/Desktop/eclipse/Ass1/cmake-build-debug
+CMAKE_BINARY_DIR = /home/dor/CLionProjects/Ass1/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/amir/Desktop/eclipse/Ass1/cmake-build-debug
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/amir/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/home/dor/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/amir/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/home/dor/Downloads/clion-2017.2.3/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles /home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles /home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -231,32 +231,59 @@ src/Directory.cpp.s:
 	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Directory.cpp.s
 .PHONY : src/Directory.cpp.s
 
-src/FileSystem.o: src/FileSystem.cpp.o
+src/Environment.o: src/Environment.cpp.o
 
-.PHONY : src/FileSystem.o
+.PHONY : src/Environment.o
 
 # target to build an object file
-src/FileSystem.cpp.o:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FileSystem.cpp.o
-.PHONY : src/FileSystem.cpp.o
+src/Environment.cpp.o:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Environment.cpp.o
+.PHONY : src/Environment.cpp.o
 
-src/FileSystem.i: src/FileSystem.cpp.i
+src/Environment.i: src/Environment.cpp.i
 
-.PHONY : src/FileSystem.i
+.PHONY : src/Environment.i
 
 # target to preprocess a source file
-src/FileSystem.cpp.i:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FileSystem.cpp.i
-.PHONY : src/FileSystem.cpp.i
+src/Environment.cpp.i:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Environment.cpp.i
+.PHONY : src/Environment.cpp.i
 
-src/FileSystem.s: src/FileSystem.cpp.s
+src/Environment.s: src/Environment.cpp.s
 
-.PHONY : src/FileSystem.s
+.PHONY : src/Environment.s
 
 # target to generate assembly for a file
-src/FileSystem.cpp.s:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FileSystem.cpp.s
-.PHONY : src/FileSystem.cpp.s
+src/Environment.cpp.s:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Environment.cpp.s
+.PHONY : src/Environment.cpp.s
+
+src/FIleSystem.o: src/FIleSystem.cpp.o
+
+.PHONY : src/FIleSystem.o
+
+# target to build an object file
+src/FIleSystem.cpp.o:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FIleSystem.cpp.o
+.PHONY : src/FIleSystem.cpp.o
+
+src/FIleSystem.i: src/FIleSystem.cpp.i
+
+.PHONY : src/FIleSystem.i
+
+# target to preprocess a source file
+src/FIleSystem.cpp.i:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FIleSystem.cpp.i
+.PHONY : src/FIleSystem.cpp.i
+
+src/FIleSystem.s: src/FIleSystem.cpp.s
+
+.PHONY : src/FIleSystem.s
+
+# target to generate assembly for a file
+src/FIleSystem.cpp.s:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/FIleSystem.cpp.s
+.PHONY : src/FIleSystem.cpp.s
 
 src/Files.o: src/Files.cpp.o
 
@@ -311,6 +338,33 @@ src/HistoryCommand.s: src/HistoryCommand.cpp.s
 src/HistoryCommand.cpp.s:
 	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/HistoryCommand.cpp.s
 .PHONY : src/HistoryCommand.cpp.s
+
+src/Main.o: src/Main.cpp.o
+
+.PHONY : src/Main.o
+
+# target to build an object file
+src/Main.cpp.o:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Main.cpp.o
+.PHONY : src/Main.cpp.o
+
+src/Main.i: src/Main.cpp.i
+
+.PHONY : src/Main.i
+
+# target to preprocess a source file
+src/Main.cpp.i:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Main.cpp.i
+.PHONY : src/Main.cpp.i
+
+src/Main.s: src/Main.cpp.s
+
+.PHONY : src/Main.s
+
+# target to generate assembly for a file
+src/Main.cpp.s:
+	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/Main.cpp.s
+.PHONY : src/Main.cpp.s
 
 src/RmCommand.o: src/RmCommand.cpp.o
 
@@ -393,33 +447,6 @@ src/rename.cpp.s:
 	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/rename.cpp.s
 .PHONY : src/rename.cpp.s
 
-src/testMain.o: src/testMain.cpp.o
-
-.PHONY : src/testMain.o
-
-# target to build an object file
-src/testMain.cpp.o:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/testMain.cpp.o
-.PHONY : src/testMain.cpp.o
-
-src/testMain.i: src/testMain.cpp.i
-
-.PHONY : src/testMain.i
-
-# target to preprocess a source file
-src/testMain.cpp.i:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/testMain.cpp.i
-.PHONY : src/testMain.cpp.i
-
-src/testMain.s: src/testMain.cpp.s
-
-.PHONY : src/testMain.s
-
-# target to generate assembly for a file
-src/testMain.cpp.s:
-	$(MAKE) -f CMakeFiles/Ass1.dir/build.make CMakeFiles/Ass1.dir/src/testMain.cpp.s
-.PHONY : src/testMain.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -441,15 +468,21 @@ help:
 	@echo "... src/Directory.o"
 	@echo "... src/Directory.i"
 	@echo "... src/Directory.s"
-	@echo "... src/FileSystem.o"
-	@echo "... src/FileSystem.i"
-	@echo "... src/FileSystem.s"
+	@echo "... src/Environment.o"
+	@echo "... src/Environment.i"
+	@echo "... src/Environment.s"
+	@echo "... src/FIleSystem.o"
+	@echo "... src/FIleSystem.i"
+	@echo "... src/FIleSystem.s"
 	@echo "... src/Files.o"
 	@echo "... src/Files.i"
 	@echo "... src/Files.s"
 	@echo "... src/HistoryCommand.o"
 	@echo "... src/HistoryCommand.i"
 	@echo "... src/HistoryCommand.s"
+	@echo "... src/Main.o"
+	@echo "... src/Main.i"
+	@echo "... src/Main.s"
 	@echo "... src/RmCommand.o"
 	@echo "... src/RmCommand.i"
 	@echo "... src/RmCommand.s"
@@ -459,9 +492,6 @@ help:
 	@echo "... src/rename.o"
 	@echo "... src/rename.i"
 	@echo "... src/rename.s"
-	@echo "... src/testMain.o"
-	@echo "... src/testMain.i"
-	@echo "... src/testMain.s"
 .PHONY : help
 
 

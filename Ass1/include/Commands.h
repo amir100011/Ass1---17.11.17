@@ -4,7 +4,6 @@
 #include <string>
 #include "FileSystem.h"
 #include "generalFunctions.h"
-
 using namespace std;
 
 class BaseCommand {
@@ -17,7 +16,7 @@ public:
 	string getArgs();
 	virtual void execute(FileSystem & fs) = 0;
 	virtual string toString() = 0;
-    void setArgs(string newargs);
+	void setArgs(string newargs);
 };
 
 class PwdCommand : public BaseCommand {

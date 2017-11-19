@@ -4,17 +4,18 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/amir/Desktop/eclipse/Ass1/src/BaseCommand.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/BaseCommand.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/BaseFile.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/BaseFile.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/Commands.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Commands.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/Directory.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Directory.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/FileSystem.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/FileSystem.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/Files.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Files.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/HistoryCommand.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/HistoryCommand.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/RmCommand.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/RmCommand.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/generalFunctions.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/generalFunctions.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/rename.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/rename.cpp.o"
-  "/home/amir/Desktop/eclipse/Ass1/src/testMain.cpp" "/home/amir/Desktop/eclipse/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/testMain.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/BaseCommand.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/BaseCommand.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/BaseFile.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/BaseFile.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/Commands.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Commands.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/Directory.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Directory.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/Environment.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Environment.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/FIleSystem.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/FIleSystem.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/Files.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Files.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/HistoryCommand.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/HistoryCommand.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/Main.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/Main.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/RmCommand.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/RmCommand.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/generalFunctions.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/generalFunctions.cpp.o"
+  "/home/dor/CLionProjects/Ass1/src/rename.cpp" "/home/dor/CLionProjects/Ass1/cmake-build-debug/CMakeFiles/Ass1.dir/src/rename.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
